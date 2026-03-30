@@ -61,12 +61,24 @@ Run a race in FinishLynx → see results appear in real-time!
 
 ## 📦 What's Included
 
+### General Integration
 | File | Description |
 |------|-------------|
 | **`swimnerd.lss`** | FinishLynx scoreboard script (ready to use) |
 | **`finishlynx_receiver.py`** | Python TCP receiver (demo/starter code) |
 | **`FINISHLYNX_README.md`** | Quick start guide |
 | **`FINISHLYNX_INTEGRATION.md`** | Full technical documentation |
+
+### Hardware Clocks
+| File | Description |
+|------|-------------|
+| **`swimnerd_bluetooth_clock.lss`** | LSS script for Bluetooth racing clock |
+| **`stm32_bluetooth_clock.ino`** | STM32 firmware (Arduino) |
+| **`BLUETOOTH_CLOCK_GUIDE.md`** | Complete build guide for Bluetooth clock |
+| **`QUICK_REFERENCE.md`** | Quick setup card (print this!) |
+| **`swimnerd_6digit_clock.lss`** | Generic 6-digit clock script |
+| **`test_clock_output.py`** | Hardware testing tool |
+| **`CLOCK_SETUP.md`** | General clock configuration guide |
 
 ---
 
@@ -85,6 +97,27 @@ RESULT|2|6|456|Jane Doe|Team B|10.45|+0.22|0.132
 ```
 
 Parse this in your Swimnerd software to update the scoreboard.
+
+---
+
+## 🔥 NEW: Bluetooth Racing Clock (DIY Hardware)
+
+Build your own **wireless 6-digit racing clock** with Bluetooth!
+
+**Hardware:**
+- STM32F103 microcontroller ($3)
+- HC-08 Bluetooth module ($5)
+- 6-digit LED display ($4)
+- **Total cost: ~$22**
+
+**Features:**
+- ✅ Wireless Bluetooth connection (10m range)
+- ✅ Real-time display updates
+- ✅ 6-digit precision (MM:SS.HH)
+- ✅ Open-source firmware
+- ✅ Arduino IDE compatible
+
+**See:** [BLUETOOTH_CLOCK_GUIDE.md](BLUETOOTH_CLOCK_GUIDE.md) for complete build instructions.
 
 ---
 

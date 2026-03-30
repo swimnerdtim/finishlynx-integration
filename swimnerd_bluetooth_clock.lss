@@ -1,0 +1,41 @@
+; Swimnerd Bluetooth Racing Clock - FinishLynx LSS Script
+; Copyright (c) 2026 Swimnerd
+;
+; Hardware: STM32F103 + HC-08 Bluetooth + 6-digit LED display
+; Protocol: Bluetooth Serial (SPP profile)
+; Baud Rate: 9600,8,N,1
+;
+; Data Format: Simple ASCII time string
+; Example: "01:23.45\n"
+;
+; The HC-08 Bluetooth module acts as a wireless serial port.
+; FinishLynx sends to Bluetooth COM port → HC-08 → STM32 → Display
+
+;;Initialization
+; Sent once when FinishLynx connects
+; Clear display and show ready state
+\10\00CLR\0a
+
+;;TimeRunning
+; Sent while race clock is running
+; Format: MM:SS.HH\n (newline terminated)
+; Example: "01:23.45\n"
+\11\01%s\0a
+
+;;TimeStopped
+; Sent when race clock stops
+; Send final time
+\11\01%s\0a
+
+;;TimeUpdate
+; Sent every second while running (optional - comment out if too frequent)
+\11\01%s\0a
+
+;;Result
+; Sent when results are finalized
+; Display winning time
+\14\06%s\0a
+
+;;Message
+; Display custom message (e.g., "START" or "READY")
+\16\01%s\0a
