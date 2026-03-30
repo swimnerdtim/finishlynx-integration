@@ -1,0 +1,35 @@
+; Swimnerd 6-Digit Racing Clock - FinishLynx LSS Script
+; Copyright (c) 2026 Swimnerd
+;
+; Serial Settings (adjust as needed): 9600,8,N,1
+; TCP Settings (if networked): -1,0.0.0.0,1024
+;
+; This script sends timing data to a 6-digit racing clock
+; Format: MM:SS.HH (minutes, seconds, hundredths)
+;
+; 6-digit display shows: [M][M]:[S][S].[H][H]
+; Example: 01:23.45
+
+;;Initialization
+; Sent once when FinishLynx starts
+; Clear display or send initialization command
+\10\00INIT\0d\0a
+
+;;TimeRunning
+; Sent while race clock is running
+; Send formatted time (MM:SS.HH)
+\11\01%s\0d\0a
+
+;;TimeStopped
+; Sent when race clock stops
+; Send final time
+\11\01%s\0d\0a
+
+;;TimeUpdate
+; Sent periodically (every second) while running
+\11\01%s\0d\0a
+
+;;Result
+; Sent when results are finalized
+; Show winning time on clock
+\14\06%s\0d\0a
