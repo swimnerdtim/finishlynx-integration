@@ -1,0 +1,104 @@
+; Swimnerd FinishLynx Integration Script
+; Copyright (c) 2026 Swimnerd
+;
+; Network/TCP Settings: -1,0.0.0.0,1024
+; Serial Settings (if needed): 9600,8,N,1
+;
+; This script outputs race results from FinishLynx to Swimnerd Live software
+; in a simple pipe-delimited format for easy parsing.
+;
+; Written by: Tim (OpenClaw AI Assistant)
+; Date: 2026-03-30
+; Version: 1.0
+;
+; Notes:
+;  - Lines starting with ; are comments
+;  - \0d\0a = CRLF (carriage return + line feed)
+;  - %s = variable placeholder
+;  - Group codes (\10-\17) define data type
+;  - Variable codes (\00-\0f) define specific field
+
+;;Initialization
+; Sent once when FinishLynx connects to Swimnerd
+; This helps Swimnerd detect the connection
+\10\00SWIMNERD_INIT|v1.0\0d\0a
+
+;;TimeRunning
+; Sent while race clock is running
+; Format: RUNNING|MM:SS.HH
+\11\00RUNNING|
+\11\01%s\0d\0a
+
+;;TimeStopped
+; Sent when race clock stops
+; Format: STOPPED|MM:SS.HH
+\11\00STOPPED|
+\11\01%s\0d\0a
+
+;;TimeUpdate
+; Sent periodically while clock is running (every second)
+; Format: UPDATE|MM:SS.HH
+\11\00UPDATE|
+\11\01%s\0d\0a
+
+;;ResultsHeader
+; Sent once before any results are sent
+; Format: START_RESULTS|Event|EventNum|Heat|Participants|Official
+\13\00START_RESULTS|
+\13\02%s|
+\13\04%s|
+\13\06%s|
+\13\08%s|
+\13\01%s\0d\0a
+
+;;Result
+; Sent once for each finisher
+; Format: RESULT|Place|Lane|Id|Name|Team|Time|Delta|ReacTime
+\14\00RESULT|
+\14\01%s|
+\14\02%s|
+\14\03%s|
+\14\04%s|
+\14\05%s|
+\14\06%s|
+\14\07%s|
+\14\0c%s\0d\0a
+
+;;ResultsTrailer
+; Sent once after all results
+; Format: END_RESULTS
+\13\00END_RESULTS\0d\0a
+
+;;Wind
+; Sent when wind reading is available (track events)
+; Format: WIND|+1.2 or WIND|-0.5
+\12\00WIND|
+\12\01%s\0d\0a
+
+;;Message
+; Sent for custom messages
+; Format: MESSAGE|Text
+\16\00MESSAGE|
+\16\01%s\0d\0a
+
+;;StartListHeader
+; Sent before start list (pre-race entries)
+; Format: START_LIST|Event|EventNum|Heat
+\13\00START_LIST|
+\13\02%s|
+\13\04%s|
+\13\06%s\0d\0a
+
+;;StartList
+; Sent for each pre-race entry
+; Format: ENTRY|Lane|Id|Name|Team
+\14\00ENTRY|
+\14\02%s|
+\14\03%s|
+\14\04%s|
+\14\05%s\0d\0a
+
+;;StartListTrailer
+; Sent after start list
+; Format: END_LIST
+\13\00END_LIST\0d\0a
